@@ -1,4 +1,5 @@
 <?php
+  
 /**
  *   Parameters:
  *       string - $email
@@ -8,19 +9,15 @@
 **/
 
 function get_user_by_email($email) {
+  $pdo = new PDO("mysql:host=localhost;dbname=marlin-newcourse-1", "root", "");
   $sql = "SELECT * FROM users WHERE email=:email";
   $statement = $pdo->prepare($sql);
   $statement->execute(['email' => $email]);
-  $mail_is_already_registered = $statement->fetch(PDO::FETCH_ASSOC);
-  
-  if(!empty($mail_is_already_registered)) {
-    $message = "Этот эл. адрес уже занят другим пользователем.";
-    $_SESSION['danger'] = $message;
-    
-    header("Location: /page_register.php");
-    exit;
-  }
-};
+  return $statement->fetch(PDO::FETCH_ASSOC);
+}
+
+
+
 
 /**
  *
@@ -32,7 +29,28 @@ function get_user_by_email($email) {
  *   Return value: int (user_id)
  **/
 
-function add_user($email, $password) {};
+function add_user($email, $password) {
+  $pdo = new PDO("mysql:host=localhost;dbname=marlin-newcourse-1", "root", "");
+  $sql = "INSERT INTO users (email, password) VALUES (:email, :password)";
+  $statement = $pdo->prepare($sql);
+  $statement->execute(
+    [
+      'email' => $email,
+      'password' => $password
+    ]
+  );
+  
+  $sql_find_id = "SELECT id FROM users WHERE email=:email";
+  $statement = $pdo->prepare($sql_find_id);
+  $statement->execute([
+    'email' => $email
+  ]);
+  
+  return $statement->fetch(PDO::FETCH_ASSOC)['id'];
+  
+}
+
+
 
 /**
  *   Parameters:
@@ -43,7 +61,10 @@ function add_user($email, $password) {};
  *   Return value: null
  **/
 
-function set_flash_message($name, $message) {};
+function set_flash_message($name, $message) {
+  $_SESSION['name'] = $name;
+  $_SESSION['message'] = $message;
+}
 
 /**
  *   Parameters:
@@ -54,7 +75,22 @@ function set_flash_message($name, $message) {};
  *
  **/
 
-function display_flash_message($name) {};
+function display_flash_message($name) {
+  
+  if (isset($_SESSION[$name])) {
+    
+    if ($_SESSION[$name] == 'danger') {
+       echo '<div class="alert alert-danger text-dark" role="alert"><strong>Уведомление! </strong>'.$_SESSION['message'].'</div>';
+    }
+
+    if ($_SESSION[$name] == 'success') {
+      echo '<div class="alert alert-success text-dark" role="alert"><strong>Уведомление! </strong>'.$_SESSION['message'].'</div>';
+    }
+  
+    unset($_SESSION['name']);
+    unset($_SESSION['message']);
+  }
+}
   
   /**
    *   Parameters:
@@ -65,7 +101,10 @@ function display_flash_message($name) {};
    *   Return value: null
    **/
 
-function redirect_to($path) {};
+function redirect_to($path) {
+  header('Location: '.$path.'.php');
+  exit();
+}
 
 function security_clean_data($data) {
   $data = trim($data);
