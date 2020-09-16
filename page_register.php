@@ -41,7 +41,7 @@
                     <span class="text-white opacity-50 ml-auto mr-2 hidden-sm-down">
                             Уже зарегистрированы?
                         </span>
-                    <a href="page_login.html" class="btn-link text-white ml-auto ml-sm-0">
+                    <a href="page_login.php" class="btn-link text-white ml-auto ml-sm-0">
                         Войти
                     </a>
                 </div>
@@ -64,9 +64,18 @@
                         </div>
                         <div class="col-xl-6 ml-auto mr-auto">
                             <div class="card p-4 rounded-plus bg-faded">
+                              <?php if(isset($_SESSION['danger'])):?>
                                 <div class="alert alert-danger text-dark" role="alert">
-                                    <strong>Уведомление!</strong> Этот эл. адрес уже занят другим пользователем.
+                                  <strong>Уведомление!</strong> <?php echo $_SESSION['danger']; unset($_SESSION['danger']);?>
                                 </div>
+                              <?php endif;?>
+                              <?php if(isset($_SESSION['success'])):?>
+                                  <div class="alert alert-success text-dark" role="alert">
+                                      <strong>Уведомление!</strong> <?php echo $_SESSION['success']; unset($_SESSION['success']);?>
+                                  </div>
+                              <?php endif;?>
+                                
+                                
                                 <form id="js-login" novalidate="" action="page_registration_handler.php" method="POST">
                                     <div class="form-group">
                                         <label class="form-label" for="emailverify">Email</label>
