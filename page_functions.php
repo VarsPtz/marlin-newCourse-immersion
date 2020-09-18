@@ -13,7 +13,8 @@ function get_user_by_email($email) {
   $sql = "SELECT * FROM users WHERE email=:email";
   $statement = $pdo->prepare($sql);
   $statement->execute(['email' => $email]);
-  return $statement->fetch(PDO::FETCH_ASSOC);
+  $user = $statement->fetch(PDO::FETCH_ASSOC);
+  return $user;
 }
 
 
@@ -36,7 +37,7 @@ function add_user($email, $password) {
   $statement->execute(
     [
       'email' => $email,
-      'password' => $password
+      'password' => password_hash($password, PASSWORD_DEFAULT)
     ]
   );
   
@@ -62,8 +63,8 @@ function add_user($email, $password) {
  **/
 
 function set_flash_message($name, $message) {
-  $_SESSION['name'] = $name;
-  $_SESSION['message'] = $message;
+  $_SESSION[$name] = $message;
+  //$_SESSION['message'] = $message;
 }
 
 /**
@@ -79,16 +80,17 @@ function display_flash_message($name) {
   
   if (isset($_SESSION[$name])) {
     
-    if ($_SESSION[$name] == 'danger') {
-       echo '<div class="alert alert-danger text-dark" role="alert"><strong>Уведомление! </strong>'.$_SESSION['message'].'</div>';
-    }
-
-    if ($_SESSION[$name] == 'success') {
-      echo '<div class="alert alert-success text-dark" role="alert"><strong>Уведомление! </strong>'.$_SESSION['message'].'</div>';
-    }
-  
+//    if ($_SESSION[$name] == 'danger') {
+//       echo '<div class="alert alert-danger text-dark" role="alert"><strong>Уведомление! </strong>'.$_SESSION['message'].'</div>';
+//    }
+//
+//    if ($_SESSION[$name] == 'success') {
+//      echo '<div class="alert alert-success text-dark" role="alert"><strong>Уведомление! </strong>'.$_SESSION['message'].'</div>';
+//    }
+    
+    echo "<div class=\"alert alert-{$name} text-dark\" role=\"alert\">{$_SESSION[$name]}</div>";
     unset($_SESSION['name']);
-    unset($_SESSION['message']);
+    //unset($_SESSION['message']);
   }
 }
   
