@@ -117,6 +117,28 @@ function security_clean_data($data) {
  **/
 
 function login($email, $password) {
-
+  
+  $user = get_user_by_email($email);
+  
+  if(empty($user)) {
+    set_flash_message('danger', "Пользователь с таким email не зарегистрирован.");
+    return false;
+  }
+  
+  if(!password_verify($password, $user['password'])) {
+    set_flash_message('danger', "Пароли не совпадают.");
+    return false;
+    //redirect_to('page_login');
+  }
+  
+  if (!empty($_POST['login_remember']) || $_POST['login_remember'] == 'on') {
+    setcookie("user_id", $user['id'], time() + 2592000);//one month
+    //setcookie("user_email", $user['email'], time() + 2592000); // - Не получается передать два параметра в одну куку
+  } else {
+    setcookie("user_id", '', time() - 2592000);
+    //setcookie("user_email", '', time() - 2592000);
+  }
+  
+  return true;
 }
 
