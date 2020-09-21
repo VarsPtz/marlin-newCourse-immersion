@@ -40,23 +40,23 @@
 <!--            <div class="alert alert-success">-->
 <!--                Регистрация успешна-->
 <!--            </div>-->
-            <?php display_flash_message("success")?>
-            <form action="">
+            <?php display_flash_message($_SESSION['status'])?>
+            <form action="page_login_handler.php" method="POST">
                 <div class="form-group">
                     <label class="form-label" for="username">Email</label>
-                    <input type="email" id="username" class="form-control" placeholder="Эл. адрес" value="">
+                    <input type="email" id="username" class="form-control" placeholder="Эл. адрес" value="" name="login_email">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="password">Пароль</label>
-                    <input type="password" id="password" class="form-control" placeholder="" >
+                    <input type="password" id="password" class="form-control" placeholder="" name="login_password">
                 </div>
                 <div class="form-group text-left">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="rememberme">
+                        <input type="checkbox" class="custom-control-input" id="rememberme" name="login_remember">
                         <label class="custom-control-label" for="rememberme">Запомнить меня</label>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-default float-right">Войти</button>
+                <button type="submit" class="btn btn-default float-right" type="submit">Войти</button>
             </form>
         </div>
         <div class="blankpage-footer text-center">

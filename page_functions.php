@@ -55,42 +55,34 @@ function add_user($email, $password) {
 
 /**
  *   Parameters:
- *      string - $name (ключ)
+ *      string - $status (ключ)
  *      string - $message (значение, текст сообщения)
  *   Description: подготовить флеш сообщение
  *
  *   Return value: null
  **/
 
-function set_flash_message($name, $message) {
-  $_SESSION[$name] = $message;
-  //$_SESSION['message'] = $message;
+function set_flash_message($status, $message) {
+  $_SESSION['status'] = $status;
+  $_SESSION['status_message'] = $message;
 }
 
 /**
  *   Parameters:
- *     string - $name (ключ)
+ *     string - $status (ключ)
  *   Description: вывести флеш сообщение
  *
  *   Return value: null
  *
  **/
 
-function display_flash_message($name) {
+function display_flash_message($status) {
   
-  if (isset($_SESSION[$name])) {
+  if (isset($_SESSION['status'])) {
     
-//    if ($_SESSION[$name] == 'danger') {
-//       echo '<div class="alert alert-danger text-dark" role="alert"><strong>Уведомление! </strong>'.$_SESSION['message'].'</div>';
-//    }
-//
-//    if ($_SESSION[$name] == 'success') {
-//      echo '<div class="alert alert-success text-dark" role="alert"><strong>Уведомление! </strong>'.$_SESSION['message'].'</div>';
-//    }
-    
-    echo "<div class=\"alert alert-{$name} text-dark\" role=\"alert\">{$_SESSION[$name]}</div>";
-    unset($_SESSION['name']);
-    //unset($_SESSION['message']);
+    echo "<div class=\"alert alert-{$status} text-dark\" role=\"alert\">{$_SESSION['status_message']}</div>";
+    unset($_SESSION['status']);
+    unset($_SESSION['status_message']);
   }
 }
   
@@ -112,5 +104,19 @@ function security_clean_data($data) {
   $data = trim($data);
   $data = htmlspecialchars($data);
   return $data;
+}
+
+/**
+ *    Parameters:
+ *        string: $email
+ *        string: $password
+ *
+ *    Description: авторизовать пользователя
+ *
+ *    Return value: boolean
+ **/
+
+function login($email, $password) {
+
 }
 
