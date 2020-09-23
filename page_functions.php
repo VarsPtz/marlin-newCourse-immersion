@@ -16,7 +16,22 @@ function get_user_by_email($email) {
   $user = $statement->fetch(PDO::FETCH_ASSOC);
   return $user;
 }
-
+  
+  /**
+   *
+   *   Description: Получить всех пользователей
+   *
+   *   Return value: array
+   **/
+  
+  function get_users() {
+    $pdo = new PDO("mysql:host=localhost;dbname=marlin-newcourse-1", "root", "");
+    $sql = "SELECT * FROM users";
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+    $users = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $users;
+  }
 
 
 
@@ -139,6 +154,46 @@ function login($email, $password) {
     //setcookie("user_email", '', time() - 2592000);
   }
   
+  $_SESSION['user_id'] = $user['id'];
+  $_SESSION['login_in'] = 'true';
+  
+  if ($user['role'] == 'admin') {
+    $_SESSION['is_admin'] = 'true';
+  } else {
+    $_SESSION['is_admin'] = 'false';
+  }
+  
   return true;
 }
 
+
+/**
+*
+*     Desripion: Проверка авторизован ли пользоватeль
+*
+*     Return value: bool
+**/
+
+function is_not_logged_in() {
+  return !isset($_SESSION['login_in']) && $_SESSION['login_in'] != 'true';
+}
+  
+  
+/**
+ *
+ *     Desripion: Проверка пользоватeль admin или нет
+ *
+ *     Return value: bool
+ **/
+ 
+function is_admin() {
+  return isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 'true';
+}
+
+
+function print_data($data) {
+  echo '<pre>';
+  var_dump($data);
+  echo '</pre>';
+  die();
+}
