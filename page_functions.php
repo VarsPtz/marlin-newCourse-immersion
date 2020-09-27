@@ -66,7 +66,105 @@ function add_user($email, $password) {
   
 }
 
+/**
+ *  Parameters:
+ *      $user_name string
+ *      $user_job string
+ *      $user_phone string
+ *      $user_address string
+ *      $user_id string
+ *
+ *  Description: редактировать профиль
+ *
+ *  Return value: boolean
+**/
 
+function update_common_user_information($user_name, $user_job, $user_phone, $user_address, $user_id) {
+  $pdo = new PDO("mysql:host=localhost;dbname=marlin-newcourse-1", "root", "");
+  $sql_common_information = "UPDATE `users` SET user_name = :user_name, user_job = :user_job, user_phone = :user_phone, user_address = :user_address WHERE `users`.`id` = :user_id";
+  $sql_prepared = $pdo->prepare($sql_common_information);
+  $common_information = [
+    ':user_name' => $user_name,
+    ':user_job' => $user_job,
+    ':user_phone' => $user_phone,
+    ':user_address' => $user_address,
+    ':user_id' => $user_id
+  ];
+  $sql_prepared->execute($common_information);
+}
+
+
+/**
+*
+*   Parameters:
+*      $user_status string
+*      $user_id string
+*
+*   Description: обнавляем информацию о статусе пользователя
+*
+*  Return value: boolean
+*
+**/
+function update_user_status($user_status, $user_id) {
+  $pdo = new PDO("mysql:host=localhost;dbname=marlin-newcourse-1", "root", "");
+  $sql_status_information = "UPDATE `users` SET user_status = :user_status WHERE `users`.`id` = :user_id";
+  $sql_prepared = $pdo->prepare($sql_status_information);
+  $status_information = [
+    ':user_status' => $user_status,
+    ':user_id' => $user_id
+  ];
+  $sql_prepared->execute($status_information);
+}
+
+/**
+ *  Parameters:
+ *      $image array
+ *
+ *  Description: загрузить аватар
+ *
+ *  Return value: null | string (path)
+ *
+ **/
+ 
+function upload_avatar($image, $user_id) {
+  $tmp_array = explode('.', $image['name']);
+  
+  $new_image_name = 'avatar'.uniqid().'.'.$tmp_array[1];
+  move_uploaded_file($image['tmp_name'], 'img/avatars/'.$new_image_name);
+  $pdo = new PDO("mysql:host=localhost;dbname=marlin-newcourse-1", "root", "");
+  $sql_image = "UPDATE `users` SET user_avatar = :image WHERE `users`.`id` = :user_id";
+  $slq_image_prepared = $pdo->prepare($sql_image);
+  $arr_image = [
+    ':image' => $new_image_name,
+    ':user_id' => $user_id
+  ];
+  $slq_image_prepared->execute($arr_image);
+}
+
+/**
+ *  Parameters:
+ *      $vk string
+ *      $telegram string
+ *      $instagram string
+ *
+ *  Description: добавить ссылки на социальные сети
+ *
+ *  Return value: null
+ *
+ **/
+ 
+function update_social_links($vk, $telegram, $instagram, $user_id) {
+  $pdo = new PDO("mysql:host=localhost;dbname=marlin-newcourse-1", "root", "");
+  $sql_social_information = "UPDATE `users` SET user_vk = :user_vk, user_telegram = :user_telegram, user_instagram = :user_instagram WHERE `users`.`id` = :user_id";
+  $sql_prepared = $pdo->prepare($sql_social_information);
+  $social_information = [
+    ':user_vk' => $vk,
+    ':user_telegram' => $telegram,
+    ':user_instagram' => $instagram,
+    ':user_id' => $user_id
+  ];
+  $sql_prepared->execute($social_information);
+}
 
 /**
  *   Parameters:
