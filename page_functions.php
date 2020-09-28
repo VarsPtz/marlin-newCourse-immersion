@@ -295,3 +295,35 @@ function print_data($data) {
   echo '</pre>';
   die();
 }
+
+/**
+*   Parameters:
+*     $logged_user_id int
+*     $edit_user_id int
+*
+*   Description: проверить, автор ли текущий авторизованный пользователь
+*
+*   Return value: boolean
+*
+**/
+
+function is_author($logged_user_id, $edit_user_id) {
+  return $logged_user_id == $edit_user_id;
+}
+
+/**
+*   Parameters:
+*      $user_id int
+*   Description: получать пользователя по id
+*
+*   Return value: array
+**/
+
+function get_user_by_id($id) {
+  $pdo = new PDO("mysql:host=localhost;dbname=marlin-newcourse-1", "root", "");
+  $sql = "SELECT * FROM users WHERE id=:id";
+  $statement = $pdo->prepare($sql);
+  $statement->execute(['id' => $id]);
+  $user = $statement->fetch(PDO::FETCH_ASSOC);
+  return $user;
+}
