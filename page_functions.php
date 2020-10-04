@@ -52,7 +52,7 @@ function add_user($email, $password) {
   $statement->execute(
     [
       'email' => $email,
-      'password' => password_hash($password, PASSWORD_DEFAULT)
+      'password' => a
     ]
   );
   
@@ -327,3 +327,27 @@ function get_user_by_id($id) {
   $user = $statement->fetch(PDO::FETCH_ASSOC);
   return $user;
 }
+
+/**
+*   Parameters:
+*      $user_id int
+*      $email string
+*      $password string
+*
+*   Description: редактировать входные данные: email или password
+*
+*   Return value: null | boolean
+*
+**/
+function edit_credentials($email, $password, $user_id) {
+  $pdo = new PDO("mysql:host=localhost;dbname=marlin-newcourse-1", "root", "");
+  $sql_security_update = "UPDATE `users` SET email = :user_email, password = :user_password WHERE `users`.`id` = :user_id";
+  $sql_prepared = $pdo->prepare($sql_security_update);
+  $security_information = [
+    ':user_email' => $email,
+    ':user_password' => password_hash($password, PASSWORD_DEFAULT),
+    ':user_id' => $user_id
+  ];
+  $sql_prepared->execute($security_information);
+}
+

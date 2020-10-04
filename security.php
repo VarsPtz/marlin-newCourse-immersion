@@ -1,3 +1,25 @@
+<?php
+  session_start();
+  require_once "page_functions.php";
+  
+  if (is_not_logged_in()) {
+    redirect_to('page_login');
+  }
+  
+  $logged_user_id = $_SESSION['user_id'];
+  $edit_user_id = $_GET['id'];
+  
+  if (!is_admin()) {
+    if (!is_author($logged_user_id, $edit_user_id)) {
+      set_flash_message('danger', 'Можно редактировать только свой профиль.');
+      redirect_to('users');
+    }
+  }
+  
+  $user = get_user_by_id($edit_user_id);
+  $_SESSION['edit_user_id'] = $edit_user_id;
+  $_SESSION['edit_user_email'] = $user['email'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,7 +60,10 @@
             </h1>
 
         </div>
-        <form action="">
+        <form action="page_security_handler.php" method="POST">
+          <?php
+            display_flash_message($_SESSION['status']);
+          ?>
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -50,13 +75,13 @@
                                 <!-- email -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Email</label>
-                                    <input type="text" id="simpleinput" class="form-control" value="john@example.com">
+                                    <input type="text" id="simpleinput" class="form-control" value="<?php echo $user['email'];?>" name="user_email">
                                 </div>
 
                                 <!-- password -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Пароль</label>
-                                    <input type="password" id="simpleinput" class="form-control">
+                                    <input type="password" id="simpleinput" class="form-control" name="user_password">
                                 </div>
 
                                 <!-- password confirmation-->
@@ -67,7 +92,7 @@
 
 
                                 <div class="col-md-12 mt-3 d-flex flex-row-reverse">
-                                    <button class="btn btn-warning">Изменить</button>
+                                    <button class="btn btn-warning" name="btn-security-user">Изменить</button>
                                 </div>
                             </div>
                         </div>

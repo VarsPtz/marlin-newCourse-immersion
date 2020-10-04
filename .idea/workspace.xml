@@ -11,11 +11,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8eb35047-3757-4285-a0b7-267b49c2b1b3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/page_edit_handler.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/page_security_handler.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/edit.php" beforeDir="false" afterPath="$PROJECT_DIR$/edit.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/page_functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/page_functions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/page_profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/page_profile.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/security.php" beforeDir="false" afterPath="$PROJECT_DIR$/security.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/users.php" beforeDir="false" afterPath="$PROJECT_DIR$/users.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,7 +61,12 @@
       <workItem from="1601051128007" duration="1208000" />
       <workItem from="1601096370943" duration="23026000" />
       <workItem from="1601215181966" duration="10400000" />
-      <workItem from="1601302345016" duration="11636000" />
+      <workItem from="1601302345016" duration="12516000" />
+      <workItem from="1601395402106" duration="1192000" />
+      <workItem from="1601567528831" duration="9345000" />
+      <workItem from="1601702440775" duration="601000" />
+      <workItem from="1601750115028" duration="594000" />
+      <workItem from="1601784751141" duration="10942000" />
     </task>
     <servers />
   </component>
@@ -86,10 +90,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="481" y="0" key="#PHP/0.0.1366.728/1366.0.1920.1080@0.0.1366.728" timestamp="1600109587627" />
-    <state x="518" y="286" key="NewPhpFileDialog" timestamp="1601316724045">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="2094" y="424" key="NewPhpFileDialog" timestamp="1601573060624">
+      <screen x="1366" y="0" width="1920" height="1080" />
     </state>
     <state x="518" y="286" key="NewPhpFileDialog/0.0.1366.728/1366.0.1920.1080@0.0.1366.728" timestamp="1601316724045" />
-    <state x="2094" y="424" key="NewPhpFileDialog/0.0.1366.728/1366.0.1920.1080@1366.0.1920.1080" timestamp="1601107510608" />
+    <state x="2094" y="424" key="NewPhpFileDialog/0.0.1366.728/1366.0.1920.1080@1366.0.1920.1080" timestamp="1601573060624" />
   </component>
 </project>
