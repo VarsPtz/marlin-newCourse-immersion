@@ -351,3 +351,19 @@ function edit_credentials($email, $password, $user_id) {
   $sql_prepared->execute($security_information);
 }
 
+
+/**
+ *   Description: Получить все виды значений статуса пользователя
+ *
+ *   Return value: array
+ *
+**/
+function get_all_user_status_types() {
+  $pdo = new PDO("mysql:host=localhost;dbname=marlin-newcourse-1", "root", "");
+  $sql = "SELECT status_key, status_value FROM user_status";
+  $statement = $pdo->prepare($sql);
+  $statement->execute();
+  $all_status = $statement->fetchAll(PDO::FETCH_ASSOC);
+  return $all_status;
+}
+

@@ -1,3 +1,27 @@
+<?php
+  session_start();
+  require_once "page_functions.php";
+  
+  if (is_not_logged_in()) {
+    redirect_to('page_login');
+  }
+  
+  $logged_user_id = $_SESSION['user_id'];
+  $edit_user_id = $_GET['id'];
+  
+  if (!is_admin()) {
+    if (!is_author($logged_user_id, $edit_user_id)) {
+      set_flash_message('danger', 'Можно редактировать только свой профиль.');
+      redirect_to('users');
+    }
+  }
+  
+  $user = get_user_by_id($edit_user_id);
+  $_SESSION['edit_user_id'] = $edit_user_id;
+  
+  $all_type_user_status = get_all_user_status_types();
+//  print_data($all_type_user_status);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,7 +62,7 @@
             </h1>
 
         </div>
-        <form action="">
+        <form action="page_status_handler.php" method="POST">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -52,15 +76,15 @@
                                         <!-- status -->
                                         <div class="form-group">
                                             <label class="form-label" for="example-select">Выберите статус</label>
-                                            <select class="form-control" id="example-select">
-                                                <option>Онлайн</option>
-                                                <option>Отошел</option>
-                                                <option>Не беспокоить</option>
+                                            <select class="form-control" id="example-select" name="edit_user_status">
+                                                <?php foreach ($all_type_user_status as $status_value):?>
+                                                    <option value="<?php echo $status_value['status_key'];?>" <?php if ($status_value['status_key'] == $user['user_status']) {echo "selected";}?>><?php echo $status_value['status_value'];?></option>
+                                                <?php endforeach;?>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-12 mt-3 d-flex flex-row-reverse">
-                                        <button class="btn btn-warning">Set Status</button>
+                                        <button class="btn btn-warning" name="btn-status-user">Set Status</button>
                                     </div>
                                 </div>
                             </div>
