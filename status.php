@@ -20,7 +20,6 @@
   $_SESSION['edit_user_id'] = $edit_user_id;
   
   $all_type_user_status = get_all_user_status_types();
-//  print_data($all_type_user_status);
 ?>
 <!DOCTYPE html>
 <html lang="en">

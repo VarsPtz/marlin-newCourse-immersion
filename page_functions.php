@@ -367,3 +367,24 @@ function get_all_user_status_types() {
   return $all_status;
 }
 
+/**
+ *   Description: Проверить есть у пользователя свой аватар
+ *
+ *    Parameters:
+ *      $user_id int
+ *
+ *   Return value: null | boolean
+ *
+ **/
+function has_image($user_id) {
+  $pdo = new PDO("mysql:host=localhost;dbname=marlin-newcourse-1", "root", "");
+  $sql = "SELECT user_avatar FROM users WHERE `users`.`id` = :user_id";
+  $statement = $pdo->prepare($sql);
+  $avatar_information = [
+    ':user_id' => $user_id
+  ];
+  $statement->execute($avatar_information);
+  $avatar = $statement->fetch(PDO::FETCH_ASSOC);
+  return $avatar['user_avatar'];
+}
+

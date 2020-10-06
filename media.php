@@ -1,3 +1,26 @@
+<?php
+  session_start();
+  require_once "page_functions.php";
+  
+  if (is_not_logged_in()) {
+    redirect_to('page_login');
+  }
+  
+  $logged_user_id = $_SESSION['user_id'];
+  $edit_user_id = $_GET['id'];
+  
+  if (!is_admin()) {
+    if (!is_author($logged_user_id, $edit_user_id)) {
+      set_flash_message('danger', 'Можно редактировать только свой профиль.');
+      redirect_to('users');
+    }
+  }
+  
+  $user = get_user_by_id($edit_user_id);
+  $_SESSION['edit_user_id'] = $edit_user_id;
+  $has_image = has_image($edit_user_id);
+//  print_data($has_image);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,7 +61,7 @@
             </h1>
 
         </div>
-        <form action="">
+        <form action="page_media_handler.php" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -48,17 +71,17 @@
                             </div>
                             <div class="panel-content">
                                 <div class="form-group">
-                                    <img src="img/demo/authors/josh.png" alt="" class="img-responsive" width="200">
+                                    <img src="img/<?php if ($has_image) {echo 'avatars/'.$has_image;} else {echo 'demo/avatars/avatar-m.png';} ?>" alt="" class="img-responsive" width="200">
                                 </div>
 
                                 <div class="form-group">
                                     <label class="form-label" for="example-fileinput">Выберите аватар</label>
-                                    <input type="file" id="example-fileinput" class="form-control-file">
+                                    <input type="file" id="example-fileinput" class="form-control-file" name="user_avatar">
                                 </div>
 
 
                                 <div class="col-md-12 mt-3 d-flex flex-row-reverse">
-                                    <button class="btn btn-warning">Загрузить</button>
+                                    <button class="btn btn-warning" name="btn-media-user">Загрузить</button>
                                 </div>
                             </div>
                         </div>
