@@ -386,5 +386,41 @@ function has_image($user_id) {
   $statement->execute($avatar_information);
   $avatar = $statement->fetch(PDO::FETCH_ASSOC);
   return $avatar['user_avatar'];
+  
 }
+
+/**
+ *   Description: Удалить файл
+ *
+ *    Parameters:
+ *      $file_path string
+ *
+ *   Return value: null | boolean
+ *
+ **/
+function delete_file($file_path) {
+  unlink($file_path);
+}
+
+
+/**
+ *   Description: Удалить данные о пользователе
+ *
+ *    Parameters:
+ *      $user_id int
+ *
+ *   Return value: null | boolean
+ *
+ **/
+function delete_user($user_id) {
+  $pdo = new PDO("mysql:host=localhost;dbname=marlin-newcourse-1", "root", "");
+  $sql = "DELETE FROM users WHERE `users`.`id` = :user_id";
+  $statement = $pdo->prepare($sql);
+  $user_information = [
+    ':user_id' => $user_id
+  ];
+  return $statement->execute($user_information);
+}
+
+
 
